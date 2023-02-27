@@ -1,0 +1,6 @@
+{
+  "manifest_version": 3,
+  "name": "chrome-extension-template",
+  "version": "0.0.1",
+  "description": "A scaffold project containing everything need to start developing a Chrome Extension"
+}
