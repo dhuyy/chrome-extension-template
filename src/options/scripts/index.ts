@@ -1,3 +1,3 @@
 import showMessage from '../../common/show-message';
 
-showMessage('Hello from options');
+showMessage({ message: 'Hello from options' });

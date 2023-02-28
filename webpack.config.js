@@ -7,13 +7,25 @@ module.exports = {
   mode: 'development',
   entry: {
     ['service-worker']: [
-      path.resolve(__dirname, 'src', 'service-worker', 'index.js'),
+      path.resolve(__dirname, 'src', 'service-worker', 'index.ts'),
     ],
     ['content-scripts']: [
-      path.resolve(__dirname, 'src', 'content', 'index.js'),
+      path.resolve(__dirname, 'src', 'content', 'index.ts'),
     ],
-    popup: [path.resolve(__dirname, 'src', 'popup', 'scripts', 'index.js')],
-    options: [path.resolve(__dirname, 'src', 'options', 'scripts', 'index.js')],
+    popup: [path.resolve(__dirname, 'src', 'popup', 'scripts', 'index.ts')],
+    options: [path.resolve(__dirname, 'src', 'options', 'scripts', 'index.ts')],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.ts?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+    ],
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
     filename: ({ chunk }) => {
