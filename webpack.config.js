@@ -2,9 +2,9 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
 
-module.exports = {
+const config = {
   target: 'web',
-  mode: 'development',
+  mode: process.env.NODE_ENV || 'development',
   entry: {
     ['service-worker']: [
       path.resolve(__dirname, 'src', 'service-worker', 'index.ts'),
@@ -12,20 +12,25 @@ module.exports = {
     ['content-scripts']: [
       path.resolve(__dirname, 'src', 'content', 'index.ts'),
     ],
-    popup: [path.resolve(__dirname, 'src', 'popup', 'scripts', 'index.ts')],
-    options: [path.resolve(__dirname, 'src', 'options', 'scripts', 'index.ts')],
+    popup: [path.resolve(__dirname, 'src', 'popup', 'index.tsx')],
+    options: [path.resolve(__dirname, 'src', 'options', 'index.tsx')],
+  },
+  devServer: {
+    port: 3000,
+    compress: true,
+    watchFiles: ['src/**/*'],
   },
   module: {
     rules: [
       {
-        test: /\.ts?$/,
-        use: 'ts-loader',
+        test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
+        loader: 'babel-loader',
       },
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.ts', '.tsx', '.js', '.json'],
   },
   output: {
     filename: ({ chunk }) => {
@@ -64,3 +69,9 @@ module.exports = {
     }),
   ],
 };
+
+// if (process.env.NODE_ENV === 'development') {
+//   options.devtool = 'cheap-module-source-map';
+// }
+
+module.exports = config;
