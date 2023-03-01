@@ -3,9 +3,11 @@ import { chrome } from 'jest-chrome';
 import manifest from './manifest.json';
 
 describe('manifest.json', () => {
-  test('contains all required keys', () => {
+  beforeEach(() => {
     chrome.runtime.getManifest.mockImplementation(() => manifest);
+  });
 
+  test('contains all required keys', () => {
     const { name, version, manifest_version } = chrome.runtime.getManifest();
 
     expect(name).toBeDefined();
@@ -14,10 +16,22 @@ describe('manifest.json', () => {
   });
 
   test('contains version 3', () => {
-    chrome.runtime.getManifest.mockImplementation(() => manifest);
-
     const { manifest_version } = chrome.runtime.getManifest();
 
     expect(manifest_version).toBe(3);
+  });
+
+  test('contains basic service worker configuration', () => {
+    const { background } = chrome.runtime.getManifest();
+
+    expect(background.service_worker).toBe('service-worker.js');
+  });
+
+  test('contains basic content scripts configuration', () => {
+    const {
+      content_scripts: [script],
+    } = chrome.runtime.getManifest();
+
+    expect(script.js).toEqual(['scripts/content-scripts.js']);
   });
 });
