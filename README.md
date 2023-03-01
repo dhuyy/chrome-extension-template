@@ -7,7 +7,7 @@
 <!-- A spacer -->
 <p>&nbsp;</p>
 
-<p align="center"><img src="https://dl3.pushbulletusercontent.com/r1qvuEeCbuepGY6E6SrkR6kLVJn5hSwG/256.png" width="25%"/></p>
+<p align="center"><img src="public/readme-icon.png" width="25%"/></p>
 
 <h2 align="center">Chrome Extension Template</h2>
 
@@ -41,3 +41,7 @@ function sum(a, b) {
   return a + b;
 }
 ```
+
+## License
+
+Chrome Extension Template is [MIT licensed](./LICENSE).
