@@ -1,6 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const config = {
   target: 'web',
@@ -18,7 +20,18 @@ const config = {
   devServer: {
     port: 3000,
     compress: true,
-    watchFiles: ['src/**/*'],
+    watchFiles: ['src/(popup|options)/**/*'],
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
   },
   module: {
     rules: [
@@ -34,15 +47,16 @@ const config = {
   },
   output: {
     filename: ({ chunk }) => {
-      return chunk.name === 'service-worker'
-        ? '[name].js'
+      return /(popup|options)/.test(chunk.name)
+        ? '[name]/[name].js'
         : chunk.name === 'content-scripts'
         ? 'scripts/[name].js'
-        : '[name]/[name].js';
+        : '[name].js';
     },
     path: path.resolve(__dirname, 'dist'),
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src', 'popup', 'index.html'),
       filename: 'popup/popup.html',
@@ -63,6 +77,10 @@ const config = {
               source: path.join(__dirname, 'src', 'manifest.json'),
               destination: path.join(__dirname, 'dist', 'manifest.json'),
             },
+            {
+              source: path.join(__dirname, 'src', 'index.html'),
+              destination: path.join(__dirname, 'dist', 'index.html'),
+            },
           ],
         },
       },
@@ -70,8 +88,12 @@ const config = {
   ],
 };
 
-// if (process.env.NODE_ENV === 'development') {
-//   options.devtool = 'cheap-module-source-map';
-// }
+if (process.env.NODE_ENV === 'developmemt') {
+  config.devtool = 'eval-source-map';
+}
+
+if (process.env.ANALYZE) {
+  config.plugins = [...config.plugins, new BundleAnalyzerPlugin()];
+}
 
 module.exports = config;
