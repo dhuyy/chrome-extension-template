@@ -1,3 +1,11 @@
-import showMessage from '../common/show-message';
+import { prependBarElement, setBarVisibility } from './scripts/dom';
+import type { OnMessageListenerParams } from './types';
 
-showMessage({ message: 'Hello from content scripts' });
+prependBarElement();
+
+chrome.runtime.onMessage.addListener(
+  ({ shouldRenderBar }: OnMessageListenerParams) =>
+    shouldRenderBar
+      ? setBarVisibility({ display: 'flex' })
+      : setBarVisibility({ display: 'none' })
+);

@@ -78,10 +78,6 @@ const config = {
               destination: path.join(__dirname, 'dist', 'manifest.json'),
             },
             {
-              source: path.join(__dirname, 'src', 'index.html'),
-              destination: path.join(__dirname, 'dist', 'index.html'),
-            },
-            {
               source: path.join(__dirname, 'src', 'assets', 'icons', '*'),
               destination: path.join(__dirname, 'dist', 'icons'),
             },
