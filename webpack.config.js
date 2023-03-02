@@ -4,6 +4,8 @@ const FileManagerPlugin = require('filemanager-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
+const isProdEnv = process.env.NODE_ENV === 'production';
+
 const config = {
   target: 'web',
   mode: process.env.NODE_ENV || 'development',
@@ -39,6 +41,24 @@ const config = {
         test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(?:svg|gif|png|jpg|jpeg)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: './assets/images/[name][ext]',
+        },
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot)$/,
+        type: 'asset/resource',
+        generator: {
+          filename: './assets/fonts/[name][ext]',
+        },
       },
     ],
   },
@@ -78,10 +98,21 @@ const config = {
               destination: path.join(__dirname, 'dist', 'manifest.json'),
             },
             {
-              source: path.join(__dirname, 'src', 'index.html'),
-              destination: path.join(__dirname, 'dist', 'index.html'),
+              source: path.join(__dirname, 'src', 'assets', 'icons', '*'),
+              destination: path.join(__dirname, 'dist', 'icons'),
             },
+            ...(!isProdEnv
+              ? [
+                  {
+                    source: path.join(__dirname, 'public', 'index.html'),
+                    destination: path.join(__dirname, 'dist', 'index.html'),
+                  },
+                ]
+              : []),
           ],
+          ...(isProdEnv && {
+            delete: [path.join(__dirname, 'dist', '**/*.LICENSE.txt')],
+          }),
         },
       },
     }),

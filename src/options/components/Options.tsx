@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-interface OptionsProps {
-  type: string;
-}
+import './Options.css';
 
-const Options = ({ type }: OptionsProps) => <h1>Hello from the {type} page!</h1>;
+const Options = () => {
+  useEffect(() => {
+    (async () => {
+      await chrome?.storage?.local.set({ hasOptionsPageBeenOpened: true });
+    })()
+  }, []);
+
+  return (
+    <div className="container">
+      <h2>This is the options page.</h2>
+    </div>
+  );
+};
 
 export default Options;
