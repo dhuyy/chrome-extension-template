@@ -1,23 +1,7 @@
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.action.setBadgeText({
-    text: 'OFF',
-  });
-});
-
-chrome.action.onClicked.addListener(async ({ id: tabId }) => {
-  // Retrieve the action badge to check if the extension is 'ON' or 'OFF'
-  const prevState = await chrome.action.getBadgeText({ tabId });
-  // Next state will always be the opposite
-  const nextState = prevState === 'ON' ? 'OFF' : 'ON';
-
-  if (nextState === 'ON') {
-    chrome.tabs.sendMessage(tabId, { shouldRenderBar: true });
-  } else if (nextState === 'OFF') {
-    chrome.tabs.sendMessage(tabId, { shouldRenderBar: false });
-  }
-
-  await chrome.action.setBadgeText({
-    tabId,
-    text: nextState,
+chrome.runtime.onInstalled.addListener(async () => {
+  chrome.runtime.getPlatformInfo(platformInfo => {
+    chrome.storage.local.set({ currentOS: platformInfo.os }).then(() => {
+      console.log('Info about the current OS has been saved.');
+    });
   });
 });

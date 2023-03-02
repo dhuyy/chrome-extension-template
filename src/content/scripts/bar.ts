@@ -29,7 +29,7 @@ export const prependBarElement = () => {
     const bar = document.createElement('div');
     bar.classList.add('bar');
     bar.textContent =
-      'This bar was added by the content script at the request of the service worker';
+      '🎉  Service worker, content script, and popup script were responsible for rendering this bar  🎉';
 
     body.prepend(bar);
   }

@@ -8,6 +8,6 @@ const root = createRoot(container!);
 
 root.render(
   <StrictMode>
-    <Options type="options" />
+    <Options />
   </StrictMode>
 );
