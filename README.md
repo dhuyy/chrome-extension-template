@@ -24,22 +24,34 @@ It also includes a basic configuration for permissions, icons, and options page,
 
 **✨ Hassle-free Setup**: Developers can simply clone or download the project and start modifying the code to suit their specific needs, without having to worry about the initial setup and boilerplate.
 
-**✊ Out-of-box Support**: TypeScript, React 18 & unit testing.
+**✊ Out-of-box Support**: [TypeScript](https://www.typescriptlang.org/), [React 18](https://reactjs.org/) & [MUI](https://mui.com/).
 
-## @TODO Getting Started
+## Getting Started
 
-Install:
+Create a new repository:
+
+<a href="https://github.com/dhuyy/chrome-extension-template/generate"><img src="public/generate-readme.png" width="50%"/></a>
+
+Install dependecies using [`yarn`](https://yarnpkg.com/en/package/jest) or [`npm`](https://www.npmjs.com/package/jest):
 
 ```bash
 yarn
+
+# OR
+
+npm i
 ```
 
-Example:
+Start:
 
-```javascript
-function sum(a, b) {
-  return a + b;
-}
+```bash
+yarn start
+```
+
+Build & Package:
+
+```bash
+yarn package
 ```
 
 ## License
