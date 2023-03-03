@@ -6,7 +6,7 @@ import logo from '../../assets/images/logo.png';
 
 import './Popup.css';
 
-const Popup = () => {
+const Popup = (): JSX.Element => {
   const [barVisibility, setBarVisibility] = useState(false);
   const [os, setOS] = useState('');
   const [hasOptionsPageBeenOpened, setHasOptionsPageBeenOpened] =
@@ -20,26 +20,41 @@ const Popup = () => {
       },
       tabs => {
         const [tab] = tabs;
+        const tabId = tab.id ?? 0;
 
-        chrome?.tabs?.sendMessage(tab.id, {
-          barVisibility,
-          sender: MessageSender.Popup,
-        });
+        chrome?.tabs
+          ?.sendMessage(tabId, {
+            barVisibility,
+            sender: MessageSender.Popup,
+          })
+          .catch(error => {
+            console.error(error);
+          });
       }
     );
 
-    chrome?.storage?.local.get(['currentOS']).then(({ currentOS }) => {
-      setOS(currentOS);
-    });
+    chrome?.storage?.local
+      .get('currentOS')
+      .then(({ currentOS }) => {
+        setOS(currentOS);
+      })
+      .catch(error => {
+        console.error(error);
+      });
 
     chrome?.storage?.local
-      .get(['hasOptionsPageBeenOpened'])
-      .then(({ hasOptionsPageBeenOpened }) => {
-        setHasOptionsPageBeenOpened(!!hasOptionsPageBeenOpened);
+      .get('hasOptionsPageBeenOpened')
+      .then(result => {
+        setHasOptionsPageBeenOpened(
+          !!(result.hasOptionsPageBeenOpened as boolean)
+        );
+      })
+      .catch(error => {
+        console.error(error);
       });
   }, [barVisibility]);
 
-  const handleToggleBarClick = () => {
+  const handleToggleBarClick = (): void => {
     setBarVisibility(!barVisibility);
   };
 
@@ -58,9 +73,13 @@ const Popup = () => {
         </>
       )}
       {hasOptionsPageBeenOpened ? (
-        <p className="small">The options page HAS BEEN opened since it was installed.</p>
+        <p className="small">
+          The options page HAS BEEN opened since it was installed.
+        </p>
       ) : (
-        <p className="small">The options page HAS NOT BEEN opened since it was installed.</p>
+        <p className="small">
+          The options page HAS NOT BEEN opened since it was installed.
+        </p>
       )}
     </div>
   );

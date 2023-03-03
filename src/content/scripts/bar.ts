@@ -1,6 +1,6 @@
 import type { SetBarVisibilityParams } from '../types';
 
-const appendStyles = (document: Document) => {
+const appendStyles = (document: Document): void => {
   const style = document.createElement('style');
 
   style.innerHTML = `
@@ -20,10 +20,10 @@ const appendStyles = (document: Document) => {
   document.head.appendChild(style);
 };
 
-export const prependBarElement = () => {
+export const prependBarElement = (): void => {
   const body = document.querySelector('body');
 
-  if (body) {
+  if (body !== null) {
     appendStyles(document);
 
     const bar = document.createElement('div');
@@ -35,8 +35,10 @@ export const prependBarElement = () => {
   }
 };
 
-export const setBarVisibility = ({ display }: SetBarVisibilityParams) => {
-  const bar = document.querySelector('.bar') as HTMLDivElement;
+export const setBarVisibility = ({ display }: SetBarVisibilityParams): void => {
+  const bar = document.querySelector<HTMLDivElement>('div.bar');
 
-  bar.style.display = display;
+  if (bar !== null) {
+    bar.style.display = display;
+  }
 };

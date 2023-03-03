@@ -54,8 +54,8 @@ yarn start
 yarn build
 ```
 
-- It generates a `zip` file on the project root.
-- Access `chrome://extensions`, enable **Developer Mode**, click on **Load unpacked** and select the `zip` file.
+- It generates a `zip` file on the project root. Simply drag and drop it on the `chrome://extensions` page.
+  - _You must have **Developer Mode** option enabled_.
 
 ## License
 
