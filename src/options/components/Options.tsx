@@ -2,11 +2,13 @@ import React, { useEffect } from 'react';
 
 import './Options.css';
 
-const Options = () => {
+const Options = (): JSX.Element => {
   useEffect(() => {
-    (async () => {
-      await chrome?.storage?.local.set({ hasOptionsPageBeenOpened: true });
-    })()
+    chrome?.storage?.local
+      .set({ hasOptionsPageBeenOpened: true })
+      .catch(error => {
+        console.error(error);
+      });
   }, []);
 
   return (

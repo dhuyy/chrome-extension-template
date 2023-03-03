@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { chrome } from 'jest-chrome';
 
 import manifest from './manifest.json';

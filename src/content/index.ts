@@ -1,10 +1,11 @@
 import { prependBarElement, setBarVisibility } from './scripts/bar';
 import { MessageSender } from '../enums';
+import type { ChromeRuntimeMessage } from './types';
 
 prependBarElement();
 
 chrome.runtime.onMessage.addListener(
-  ({ barVisibility, sender }, _, sendResponse) => {
+  ({ barVisibility, sender }: ChromeRuntimeMessage) => {
     switch (sender) {
       case MessageSender.Popup:
         barVisibility
