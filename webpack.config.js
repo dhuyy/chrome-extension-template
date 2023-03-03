@@ -1,4 +1,5 @@
 const path = require('path');
+const package = require('./package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
@@ -111,7 +112,19 @@ const config = {
               : []),
           ],
           ...(isProdEnv && {
-            delete: [path.join(__dirname, 'dist', '**/*.LICENSE.txt')],
+            delete: [
+              path.join(__dirname, 'dist', '**/*.LICENSE.txt'),
+              path.join(__dirname, '*.zip'),
+            ],
+            archive: [
+              {
+                source: path.join(__dirname, 'dist'),
+                destination: path.join(
+                  __dirname,
+                  `chrome-extension-${package.version}.zip`
+                ),
+              },
+            ],
           }),
         },
       },
