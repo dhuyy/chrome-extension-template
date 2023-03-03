@@ -28,15 +28,11 @@ It also includes a basic configuration for permissions, icons, and options page,
 
 ## Getting Started
 
-</br>
-
-Generate a new repository:
+**Generate a new repository:**
 
 <a href="https://github.com/dhuyy/chrome-extension-template/generate"><img src="public/generate-readme.png" width="30%"/></a>
 
-</br>
-
-Install dependecies using [`yarn`](https://yarnpkg.com/en/package/jest) or [`npm`](https://www.npmjs.com/package/jest):
+**Install dependecies using [`yarn`](https://yarnpkg.com/en/package/jest) or [`npm`](https://www.npmjs.com/package/jest):**
 
 ```bash
 yarn
@@ -44,9 +40,7 @@ yarn
 npm i
 ```
 
-</br>
-
-Start:
+**Local Development:**
 
 ```bash
 yarn start
@@ -54,18 +48,14 @@ yarn start
 
 - Access [localhost:3000](http://localhost:3000/) and choose to edit **Popup** or **Options** page.
 
-</br>
-
-Build & Package:
+**Build & Package:**
 
 ```bash
 yarn build
 ```
 
 - It generates a `zip` file on the project root.
-- Now access [chrome://extensions](chrome://extensions), enable **Developer Mode**, click on **Load unpacked** and select the `zip` file.
-
-</br>
+- Access `chrome://extensions`, enable **Developer Mode**, click on **Load unpacked** and select the `zip` file.
 
 ## License
 
