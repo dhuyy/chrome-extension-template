@@ -7,24 +7,33 @@ import logo from '../../assets/images/logo.png';
 import './Popup.css';
 
 const Popup = (): JSX.Element => {
-  const [barVisibility, setBarVisibility] = useState(false);
   const [os, setOS] = useState('');
   const [hasOptionsPageBeenOpened, setHasOptionsPageBeenOpened] =
     useState(false);
 
   useEffect(() => {
+    chrome?.storage?.local
+      .get(['currentOS', 'hasOptionsPageBeenOpened'])
+      .then(({ currentOS, hasOptionsPageBeenOpened }) => {
+        setOS(currentOS);
+        setHasOptionsPageBeenOpened(!!(hasOptionsPageBeenOpened as boolean));
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
+
+  const handleToggleBarClick = (): void => {
     chrome?.tabs?.query(
       {
         active: true,
         currentWindow: true,
       },
       tabs => {
-        const [tab] = tabs;
-        const tabId = tab.id ?? 0;
+        const tabId = tabs[0].id ?? 0;
 
         chrome?.tabs
           ?.sendMessage(tabId, {
-            barVisibility,
             sender: MessageSender.Popup,
           })
           .catch(error => {
@@ -32,30 +41,6 @@ const Popup = (): JSX.Element => {
           });
       }
     );
-
-    chrome?.storage?.local
-      .get('currentOS')
-      .then(({ currentOS }) => {
-        setOS(currentOS);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-
-    chrome?.storage?.local
-      .get('hasOptionsPageBeenOpened')
-      .then(result => {
-        setHasOptionsPageBeenOpened(
-          !!(result.hasOptionsPageBeenOpened as boolean)
-        );
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }, [barVisibility]);
-
-  const handleToggleBarClick = (): void => {
-    setBarVisibility(!barVisibility);
   };
 
   return (
@@ -64,9 +49,9 @@ const Popup = (): JSX.Element => {
       <Button variant="contained" onClick={handleToggleBarClick}>
         Toggle Bar Visibility
       </Button>
-      {barVisibility && (
+      {os !== '' && (
         <>
-          <p className="small">OS used to render the bar:</p>
+          <p className="small">Current OS:</p>
           <p className="small os">
             <b>{os}</b>
           </p>

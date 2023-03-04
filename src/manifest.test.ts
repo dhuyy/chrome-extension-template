@@ -8,7 +8,7 @@ describe('manifest.json', () => {
     chrome.runtime.getManifest.mockImplementation(() => manifest);
   });
 
-  test('contains all required keys', () => {
+  it('contains all required keys', () => {
     const { name, version, manifest_version } = chrome.runtime.getManifest();
 
     expect(name).toBeDefined();
@@ -16,23 +16,37 @@ describe('manifest.json', () => {
     expect(manifest_version).toBeDefined();
   });
 
-  test('contains version 3', () => {
+  it('contains version 3', () => {
     const { manifest_version } = chrome.runtime.getManifest();
 
     expect(manifest_version).toBe(3);
   });
 
-  test('contains basic service worker configuration', () => {
+  it('contains service worker configuration', () => {
     const { background } = chrome.runtime.getManifest();
 
     expect(background.service_worker).toBe('service-worker.js');
   });
 
-  test('contains basic content scripts configuration', () => {
+  it('contains content scripts configuration', () => {
     const {
       content_scripts: [script],
     } = chrome.runtime.getManifest();
 
     expect(script.js).toEqual(['scripts/content-scripts.js']);
+  });
+
+  it('contains popup configuration', () => {
+    const {
+      action: { default_popup },
+    } = chrome.runtime.getManifest();
+
+    expect(default_popup).toEqual('popup/popup.html');
+  });
+
+  it('contains options page configuration', () => {
+    const { options_page } = chrome.runtime.getManifest();
+
+    expect(options_page).toEqual('options/options.html');
   });
 });

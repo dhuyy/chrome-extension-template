@@ -1,5 +1,3 @@
-import type { SetBarVisibilityParams } from '../types';
-
 const appendStyles = (document: Document): void => {
   const style = document.createElement('style');
 
@@ -28,6 +26,7 @@ export const prependBarElement = (): void => {
 
     const bar = document.createElement('div');
     bar.classList.add('bar');
+    bar.dataset.testid = 'bar';
     bar.textContent =
       '🎉  Service worker, content script, and popup script were responsible for rendering this bar  🎉';
 
@@ -35,10 +34,12 @@ export const prependBarElement = (): void => {
   }
 };
 
-export const setBarVisibility = ({ display }: SetBarVisibilityParams): void => {
+export const toggleBarVisibility = (): void => {
   const bar = document.querySelector<HTMLDivElement>('div.bar');
 
   if (bar !== null) {
-    bar.style.display = display;
+    const display = bar.style.display;
+
+    bar.style.display = display === 'flex' ? 'none' : 'flex';
   }
 };
