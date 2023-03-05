@@ -42,8 +42,8 @@ describe('Popup component', () => {
 
   it.each`
     hasOptionsPageBeenOpened | text
-    ${true}                  | ${'The options page HAS BEEN opened since it was installed.'}
-    ${false}                 | ${'The options page HAS NOT BEEN opened since it was installed.'}
+    ${true}                  | ${'HAS ALREADY BEEN OPENED'}
+    ${false}                 | ${'HAS NOT BEEN OPENED'}
   `(
     'renders $text when hasOptionsPageBeenOpened is $hasOptionsPageBeenOpened',
     async ({ hasOptionsPageBeenOpened, text }) => {
@@ -59,11 +59,11 @@ describe('Popup component', () => {
     }
   );
 
-  it('renders bar when button to toggle bar visibility is clicked', async () => {
+  it('renders bar when button to toggle the bar visibility is clicked', async () => {
     renderComponent();
 
     const button = screen.getByRole('button', {
-      name: 'Toggle Bar Visibility',
+      name: 'Toggle Bar',
     });
     await userEvent.click(button);
 

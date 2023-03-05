@@ -46,24 +46,24 @@ const Popup = (): JSX.Element => {
   return (
     <div className="container">
       <img src={logo} alt="Logo" />
-      <Button variant="contained" onClick={handleToggleBarClick}>
-        Toggle Bar Visibility
+      <Button variant="contained" size="small" onClick={handleToggleBarClick}>
+        Toggle Bar
       </Button>
       {os !== '' && (
         <>
-          <p className="small">Current OS:</p>
-          <p className="small os">
-            <b>{os}</b>
+          <p className="small">
+            <b>Current OS: </b>
+            {os}
           </p>
         </>
       )}
       {hasOptionsPageBeenOpened ? (
         <p className="small">
-          The options page HAS BEEN opened since it was installed.
+          <b>Options page:</b> HAS ALREADY BEEN OPENED
         </p>
       ) : (
         <p className="small">
-          The options page HAS NOT BEEN opened since it was installed.
+          <b>Options page:</b> HAS NOT BEEN OPENED
         </p>
       )}
     </div>
