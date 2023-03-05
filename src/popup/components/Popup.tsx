@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 
 import { MessageSender } from '../../enums';
-import logo from '../../assets/images/logo.png';
+import logo from '../../commmon/images/logo.png';
 
 import './Popup.css';
 

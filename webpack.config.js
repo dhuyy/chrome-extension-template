@@ -51,14 +51,14 @@ const config = {
         test: /\.(?:svg|gif|png|jpg|jpeg)$/i,
         type: 'asset/resource',
         generator: {
-          filename: './assets/images/[name][ext]',
+          filename: './common/images/[name][ext]',
         },
       },
       {
         test: /\.(woff(2)?|ttf|eot)$/,
         type: 'asset/resource',
         generator: {
-          filename: './assets/fonts/[name][ext]',
+          filename: './common/fonts/[name][ext]',
         },
       },
     ],
@@ -99,7 +99,7 @@ const config = {
               destination: path.join(__dirname, 'dist', 'manifest.json'),
             },
             {
-              source: path.join(__dirname, 'src', 'assets', 'icons', '*'),
+              source: path.join(__dirname, 'src', 'common', 'icons', '*'),
               destination: path.join(__dirname, 'dist', 'icons'),
             },
             ...(!isProdEnv
