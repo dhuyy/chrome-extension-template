@@ -13,7 +13,7 @@ const Options = (): JSX.Element => {
 
   return (
     <div className="container">
-      <h2>This is the options page.</h2>
+      <h2>Chrome Extension - Options page</h2>
     </div>
   );
 };

@@ -1,20 +1,19 @@
-import { prependBarElement, setBarVisibility } from './scripts/bar';
+import { prependBarElement, toggleBarVisibility } from './scripts/bar';
 import { MessageSender } from '../enums';
-import type { ChromeRuntimeMessage } from './types';
+
+interface OnMessageParams {
+  sender: MessageSender;
+}
 
 prependBarElement();
 
-chrome.runtime.onMessage.addListener(
-  ({ barVisibility, sender }: ChromeRuntimeMessage) => {
-    switch (sender) {
-      case MessageSender.Popup:
-        barVisibility
-          ? setBarVisibility({ display: 'flex' })
-          : setBarVisibility({ display: 'none' });
-        break;
-      default:
-        // https://stackoverflow.com/a/56483156
-        return true;
-    }
+chrome.runtime.onMessage.addListener(({ sender }: OnMessageParams) => {
+  switch (sender) {
+    case MessageSender.Popup:
+      toggleBarVisibility();
+      break;
+    default:
+      // https://stackoverflow.com/a/56483156
+      return true;
   }
-);
+});

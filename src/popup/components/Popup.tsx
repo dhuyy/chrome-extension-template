@@ -7,24 +7,33 @@ import logo from '../../assets/images/logo.png';
 import './Popup.css';
 
 const Popup = (): JSX.Element => {
-  const [barVisibility, setBarVisibility] = useState(false);
   const [os, setOS] = useState('');
   const [hasOptionsPageBeenOpened, setHasOptionsPageBeenOpened] =
     useState(false);
 
   useEffect(() => {
+    chrome?.storage?.local
+      .get(['currentOS', 'hasOptionsPageBeenOpened'])
+      .then(({ currentOS, hasOptionsPageBeenOpened }) => {
+        setOS(currentOS);
+        setHasOptionsPageBeenOpened(!!(hasOptionsPageBeenOpened as boolean));
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
+
+  const handleToggleBarClick = (): void => {
     chrome?.tabs?.query(
       {
         active: true,
         currentWindow: true,
       },
       tabs => {
-        const [tab] = tabs;
-        const tabId = tab.id ?? 0;
+        const tabId = tabs[0].id ?? 0;
 
         chrome?.tabs
           ?.sendMessage(tabId, {
-            barVisibility,
             sender: MessageSender.Popup,
           })
           .catch(error => {
@@ -32,53 +41,29 @@ const Popup = (): JSX.Element => {
           });
       }
     );
-
-    chrome?.storage?.local
-      .get('currentOS')
-      .then(({ currentOS }) => {
-        setOS(currentOS);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-
-    chrome?.storage?.local
-      .get('hasOptionsPageBeenOpened')
-      .then(result => {
-        setHasOptionsPageBeenOpened(
-          !!(result.hasOptionsPageBeenOpened as boolean)
-        );
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }, [barVisibility]);
-
-  const handleToggleBarClick = (): void => {
-    setBarVisibility(!barVisibility);
   };
 
   return (
     <div className="container">
       <img src={logo} alt="Logo" />
-      <Button variant="contained" onClick={handleToggleBarClick}>
-        Toggle Bar Visibility
+      <Button variant="contained" size="small" onClick={handleToggleBarClick}>
+        Toggle Bar
       </Button>
-      {barVisibility && (
+      {os !== '' && (
         <>
-          <p className="small">OS used to render the bar:</p>
-          <p className="small os">
-            <b>{os}</b>
+          <p className="small">
+            <b>Current OS: </b>
+            {os}
           </p>
         </>
       )}
       {hasOptionsPageBeenOpened ? (
         <p className="small">
-          The options page HAS BEEN opened since it was installed.
+          <b>Options page:</b> HAS ALREADY BEEN OPENED
         </p>
       ) : (
         <p className="small">
-          The options page HAS NOT BEEN opened since it was installed.
+          <b>Options page:</b> HAS NOT BEEN OPENED
         </p>
       )}
     </div>
