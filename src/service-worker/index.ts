@@ -4,4 +4,7 @@ chrome.runtime.onInstalled.addListener(() => {
       console.error(error);
     });
   });
+
+  // https://stackoverflow.com/a/56483156
+  return true;
 });

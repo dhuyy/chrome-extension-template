@@ -1,27 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 
-import { MessageSender } from '../../enums';
-import logo from '../../commmon/images/logo.png';
+import type { Nullable } from '../../common/types/utils';
+import { Action } from '../../common/enums';
+import logo from '../../common/images/logo.png';
+import { useGetInitialValues } from '../hooks/get-initial-values';
 
 import './Popup.css';
 
 const Popup = (): JSX.Element => {
-  const [os, setOS] = useState('');
+  const [os, setOS] = useState<Nullable<chrome.runtime.PlatformOs>>(null);
   const [hasOptionsPageBeenOpened, setHasOptionsPageBeenOpened] =
     useState(false);
 
-  useEffect(() => {
-    chrome?.storage?.local
-      .get(['currentOS', 'hasOptionsPageBeenOpened'])
-      .then(({ currentOS, hasOptionsPageBeenOpened }) => {
-        setOS(currentOS);
-        setHasOptionsPageBeenOpened(!!(hasOptionsPageBeenOpened as boolean));
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }, []);
+  useGetInitialValues({ setOS, setHasOptionsPageBeenOpened });
 
   const handleToggleBarClick = (): void => {
     chrome?.tabs?.query(
@@ -34,7 +26,7 @@ const Popup = (): JSX.Element => {
 
         chrome?.tabs
           ?.sendMessage(tabId, {
-            sender: MessageSender.Popup,
+            action: Action.ToggleBarVisibility,
           })
           .catch(error => {
             console.error(error);
@@ -49,7 +41,7 @@ const Popup = (): JSX.Element => {
       <Button variant="contained" size="small" onClick={handleToggleBarClick}>
         Toggle Bar
       </Button>
-      {os !== '' && (
+      {os !== null && (
         <>
           <p className="small">
             <b>Current OS: </b>

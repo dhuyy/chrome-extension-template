@@ -1,19 +1,19 @@
 import { prependBarElement, toggleBarVisibility } from './scripts/bar';
-import { MessageSender } from '../enums';
+import { Action } from '../common/enums';
 
 interface OnMessageParams {
-  sender: MessageSender;
+  action: Action;
 }
 
 prependBarElement();
 
-chrome.runtime.onMessage.addListener(({ sender }: OnMessageParams) => {
-  switch (sender) {
-    case MessageSender.Popup:
+chrome.runtime.onMessage.addListener(({ action }: OnMessageParams) => {
+  switch (action) {
+    case Action.ToggleBarVisibility:
       toggleBarVisibility();
       break;
-    default:
-      // https://stackoverflow.com/a/56483156
-      return true;
   }
+
+  // https://stackoverflow.com/a/56483156
+  return true;
 });

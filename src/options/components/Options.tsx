@@ -1,15 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+
+import { useSetOpenMark } from '../hooks/set-open-mark';
 
 import './Options.css';
 
 const Options = (): JSX.Element => {
-  useEffect(() => {
-    chrome?.storage?.local
-      .set({ hasOptionsPageBeenOpened: true })
-      .catch(error => {
-        console.error(error);
-      });
-  }, []);
+  useSetOpenMark();
 
   return (
     <div className="container">
