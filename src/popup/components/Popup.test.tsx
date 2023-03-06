@@ -4,7 +4,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { fnWithCallbackMock } from '../../../__tests__/utils';
-import { MessageSender } from '../../enums';
+import { Action } from '../../common/enums';
 
 import Popup from './Popup';
 
@@ -75,7 +75,7 @@ describe('Popup component', () => {
       expect.any(Function)
     );
     expect(chrome.tabs.sendMessage).toHaveBeenCalledWith(238213812, {
-      sender: MessageSender.Popup,
+      action: Action.ToggleBarVisibility,
     });
   });
 });

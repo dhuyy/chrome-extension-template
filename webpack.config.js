@@ -1,9 +1,13 @@
+/* eslint-disable no-useless-computed-key */
 const path = require('path');
-const package = require('./package.json');
+const packageJson = require('./package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const Visualizer = require('webpack-visualizer-plugin2');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { DuplicatesPlugin } = require('inspectpack/plugin');
 
 const isProdEnv = process.env.NODE_ENV === 'production';
 
@@ -30,6 +34,7 @@ const config = {
       cacheGroups: {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
+          filename: './common/[name].js',
           name: 'vendors',
           chunks: 'all',
         },
@@ -45,20 +50,20 @@ const config = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.(?:svg|gif|png|jpg|jpeg)$/i,
         type: 'asset/resource',
         generator: {
-          filename: './assets/images/[name][ext]',
+          filename: './common/images/[name][ext]',
         },
       },
       {
         test: /\.(woff(2)?|ttf|eot)$/,
         type: 'asset/resource',
         generator: {
-          filename: './assets/fonts/[name][ext]',
+          filename: './common/fonts/[name][ext]',
         },
       },
     ],
@@ -66,18 +71,22 @@ const config = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
   },
+  // prettier-ignore
   output: {
     filename: ({ chunk }) => {
       return /(popup|options)/.test(chunk.name)
         ? '[name]/[name].js'
         : chunk.name === 'content-scripts'
-        ? 'scripts/[name].js'
-        : '[name].js';
+          ? 'scripts/[name].js'
+          : '[name].js';
     },
     path: path.resolve(__dirname, 'dist'),
   },
   plugins: [
     new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name]/[name].css',
+    }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src', 'popup', 'index.html'),
       filename: 'popup/popup.html',
@@ -99,7 +108,7 @@ const config = {
               destination: path.join(__dirname, 'dist', 'manifest.json'),
             },
             {
-              source: path.join(__dirname, 'src', 'assets', 'icons', '*'),
+              source: path.join(__dirname, 'src', 'common', 'icons', '*'),
               destination: path.join(__dirname, 'dist', 'icons'),
             },
             ...(!isProdEnv
@@ -121,7 +130,7 @@ const config = {
                 source: path.join(__dirname, 'dist'),
                 destination: path.join(
                   __dirname,
-                  `chrome-extension-${package.version}.zip`
+                  `chrome-extension-${packageJson.version}.zip`
                 ),
               },
             ],
@@ -136,8 +145,24 @@ if (process.env.NODE_ENV === 'developmemt') {
   config.devtool = 'eval-source-map';
 }
 
+if (process.env.NODE_ENV === 'production') {
+  config.plugins = [
+    ...config.plugins,
+    new DuplicatesPlugin({
+      emitErrors: false,
+      emitHandler: undefined,
+      ignoredPackages: undefined,
+      verbose: false,
+    }),
+  ];
+}
+
 if (process.env.ANALYZE) {
   config.plugins = [...config.plugins, new BundleAnalyzerPlugin()];
+}
+
+if (process.env.VISUALIZE) {
+  config.plugins = [...config.plugins, new Visualizer()];
 }
 
 module.exports = config;
