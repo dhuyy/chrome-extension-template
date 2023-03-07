@@ -24,7 +24,7 @@ It also includes a basic configuration for permissions, icons, and options page,
 
 **✨ Hassle-free Setup**: Developers can simply clone or download the project and start modifying the code to suit their specific needs, without having to worry about the initial setup and boilerplate.
 
-**✊ Out-of-box Support**: [TypeScript](https://www.typescriptlang.org/), [React 18](https://reactjs.org/) & [MUI](https://mui.com/).
+**✊ Out-of-box Support**: [TypeScript](https://www.typescriptlang.org/) & [React 18](https://reactjs.org/).
 
 ## Getting Started
 

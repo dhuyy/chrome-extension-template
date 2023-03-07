@@ -59,13 +59,6 @@ const config = {
           filename: './common/images/[name][ext]',
         },
       },
-      {
-        test: /\.(woff(2)?|ttf|eot)$/,
-        type: 'asset/resource',
-        generator: {
-          filename: './common/fonts/[name][ext]',
-        },
-      },
     ],
   },
   resolve: {
