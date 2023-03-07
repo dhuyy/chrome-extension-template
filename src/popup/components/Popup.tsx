@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Button from '@mui/material/Button';
 
 import type { Nullable } from '../../common/types/utils';
 import { Action } from '../../common/enums';
@@ -38,9 +37,7 @@ const Popup = (): JSX.Element => {
   return (
     <div className="container">
       <img src={logo} alt="Logo" />
-      <Button variant="contained" size="small" onClick={handleToggleBarClick}>
-        Toggle Bar
-      </Button>
+      <button onClick={handleToggleBarClick}>Toggle Bar</button>
       {os !== null && (
         <>
           <p className="small">

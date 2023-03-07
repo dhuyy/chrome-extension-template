@@ -15,6 +15,18 @@
   width: fit-content;
   min-width: 120px;
   margin-bottom: 16px;
+  display: inline-block;
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 0;
+}
+
+.container button:hover {
+  background-color: #3e8e41;
 }
 
 .small {
