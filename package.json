@@ -1,6 +1,6 @@
 {
   "name": "chrome-extension-template",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "It provides a starting point for developers to quickly create new Chrome extensions using the latest Manifest V3",
   "repository": "git@github.com:dhuyy/chrome-extension-template.git",
   "author": "Vandhuy Martins <vandhuy@gmail.com>",
